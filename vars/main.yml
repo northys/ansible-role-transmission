@@ -1,0 +1,5 @@
+transmission:
+  rpc_user: transmission
+  rpc_user_pswd: password
+  user: transmission
+  pswd: $1$salty$SzJsU4qDcXp536Acnlp6I. # password

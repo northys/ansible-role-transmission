@@ -1,0 +1,26 @@
+---
+- name: Install Transmission
+  apt: name=transmission-daemon state=present
+
+- name: Make sure transmission is not running
+  service: name=transmission-daemon state=stopped
+  ignore_errors: true
+
+- name: Add user
+  user: name={{transmission.user}} password={{transmission.pswd}}
+
+- name: Add downloads folder
+  file: path=/home/{{transmission.user}}/downloads owner={{transmission.user}} state=directory
+
+- name: Add torrents folder
+  file: path=/home/{{transmission.user}}/torrents owner={{transmission.user}} state=directory
+
+- name: Change downloads folder mode
+  file: path=/home/{{transmission.user}}/downloads owner={{transmission.user}} mode=0777
+
+- name: Copy Transmission configuration
+  template: src=settings.json dest=/var/lib/transmission-daemon/info/settings.json
+
+- name: Make sure transmission is started
+  service: name=transmission-daemon state=started
+  ignore_errors: true
